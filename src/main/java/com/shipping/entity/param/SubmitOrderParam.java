@@ -21,9 +21,9 @@ public class SubmitOrderParam {
     private String remark;
 
     /**
-     * 操作人
+     * 操作人openid
      */
-    private Integer opId;
+    private String openid;
 
 
 }

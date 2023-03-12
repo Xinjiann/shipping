@@ -52,9 +52,9 @@ public class ShippingOrder implements Serializable {
     private Date createTime;
 
     /**
-     * 创建者
+     * 创建者openid
      */
-    private Integer createBy;
+    private String openid;
 
     /**
      * 金额
@@ -72,9 +72,9 @@ public class ShippingOrder implements Serializable {
     private String image;
 
     /**
-     * 是否结单
+     * 订单状态
      */
-    private Integer finished;
+    private Integer status;
 
     /**
      * 删除标志

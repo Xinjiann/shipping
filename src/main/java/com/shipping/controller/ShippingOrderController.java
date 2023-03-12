@@ -1,11 +1,16 @@
 package com.shipping.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shipping.common.lang.Result;
 import com.shipping.entity.ShippingOrder;
+import com.shipping.entity.param.QueryOrderForPageParam;
 import com.shipping.entity.param.ReviewParam;
 import com.shipping.entity.param.SubmitOrderParam;
 import com.shipping.service.ShippingOrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +25,7 @@ import java.util.Objects;
  * @since 2023-03-08
  */
 @RestController
+@Slf4j
 @RequestMapping("/shipping-order")
 public class ShippingOrderController {
 
@@ -40,12 +46,33 @@ public class ShippingOrderController {
         shippingOrder.setAddress(submitOrderParam.getAddress());
         shippingOrder.setTrackingNumber(submitOrderParam.getTrackingNumber());
         shippingOrder.setRemark(submitOrderParam.getRemark());
-        shippingOrder.setCreateBy(submitOrderParam.getOpId());
+        shippingOrder.setOpenid(submitOrderParam.getOpenid());
         shippingOrder.setCreateTime(new Date());
-        shippingOrder.setFinished(0);
+        shippingOrder.setStatus(0);
         shippingOrder.setDeleted(0);
         shippingOrderService.save(shippingOrder);
         return Result.success();
+    }
+
+    @PostMapping("/list")
+    public Result list(@RequestBody QueryOrderForPageParam queryOrderForPageParam) {
+        /** 参数校验 */
+        if (Objects.isNull(queryOrderForPageParam.getPagePart())) {
+            log.error("分页部件为空");
+            return Result.fail();
+        }
+        if (Objects.isNull(queryOrderForPageParam.getOpenid())) {
+            log.error("openid为空");
+            return Result.fail();
+        }
+
+        QueryWrapper<ShippingOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("openid", queryOrderForPageParam.getOpenid());
+        queryWrapper.eq("status", queryOrderForPageParam.getStatus());
+        queryWrapper.eq("deleted", 0);
+        Page<ShippingOrder> page = new Page(queryOrderForPageParam.getPagePart().getCurrent(), queryOrderForPageParam.getPagePart().getSize());
+        IPage<ShippingOrder> res = shippingOrderService.page(page, queryWrapper);
+        return Result.success(res);
     }
 
     @PostMapping("/review")
@@ -62,12 +89,12 @@ public class ShippingOrderController {
         if (Objects.isNull(shippingOrder)) {
             return Result.fail("该订单不存在");
         }
-        if (shippingOrder.getFinished() == 1) {
+        if (shippingOrder.getStatus() == 1) {
             return Result.fail("重复操作");
         }
         shippingOrder.setOrderNumber(reviewParam.getOrderNumber());
         shippingOrder.setPrice(reviewParam.getPrice());
-        shippingOrder.setFinished(1);
+        shippingOrder.setStatus(1);
         shippingOrderService.saveOrUpdate(shippingOrder);
         return Result.success();
     }

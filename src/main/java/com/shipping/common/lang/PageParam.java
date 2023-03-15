@@ -3,7 +3,7 @@ package com.shipping.common.lang;
 import lombok.Data;
 
 @Data
-public class PagePart {
+public class PageParam {
 
     /**
      * 每页数据量

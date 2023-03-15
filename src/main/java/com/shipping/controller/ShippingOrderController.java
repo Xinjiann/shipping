@@ -4,6 +4,7 @@ package com.shipping.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.shipping.common.constant.ShippingOrderStatus;
 import com.shipping.common.lang.Result;
 import com.shipping.entity.ShippingOrder;
 import com.shipping.entity.param.QueryOrderForPageParam;
@@ -48,7 +49,7 @@ public class ShippingOrderController {
         shippingOrder.setRemark(submitOrderParam.getRemark());
         shippingOrder.setOpenid(submitOrderParam.getOpenid());
         shippingOrder.setCreateTime(new Date());
-        shippingOrder.setStatus(0);
+        shippingOrder.setStatus(ShippingOrderStatus.CREATED);
         shippingOrder.setDeleted(0);
         shippingOrderService.save(shippingOrder);
         return Result.success();
@@ -57,7 +58,7 @@ public class ShippingOrderController {
     @PostMapping("/list")
     public Result list(@RequestBody QueryOrderForPageParam queryOrderForPageParam) {
         /** 参数校验 */
-        if (Objects.isNull(queryOrderForPageParam.getPagePart())) {
+        if (Objects.isNull(queryOrderForPageParam.getPageParam())) {
             log.error("分页部件为空");
             return Result.fail();
         }
@@ -70,7 +71,7 @@ public class ShippingOrderController {
         queryWrapper.eq("openid", queryOrderForPageParam.getOpenid());
         queryWrapper.eq("status", queryOrderForPageParam.getStatus());
         queryWrapper.eq("deleted", 0);
-        Page<ShippingOrder> page = new Page(queryOrderForPageParam.getPagePart().getCurrent(), queryOrderForPageParam.getPagePart().getSize());
+        Page<ShippingOrder> page = new Page(queryOrderForPageParam.getPageParam().getCurrent(), queryOrderForPageParam.getPageParam().getSize());
         IPage<ShippingOrder> res = shippingOrderService.page(page, queryWrapper);
         return Result.success(res);
     }
@@ -94,7 +95,7 @@ public class ShippingOrderController {
         }
         shippingOrder.setOrderNumber(reviewParam.getOrderNumber());
         shippingOrder.setPrice(reviewParam.getPrice());
-        shippingOrder.setStatus(1);
+        shippingOrder.setStatus(ShippingOrderStatus.WAITING_FOR_PAID);
         shippingOrderService.saveOrUpdate(shippingOrder);
         return Result.success();
     }

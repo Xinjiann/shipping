@@ -1,6 +1,6 @@
 package com.shipping.entity.param;
 
-import com.shipping.common.lang.PagePart;
+import com.shipping.common.lang.PageParam;
 import lombok.Data;
 
 @Data
@@ -19,5 +19,5 @@ public class QueryOrderForPageParam {
     /**
      * 分页部件
      */
-    private PagePart pagePart;
+    private PageParam pageParam;
 }

@@ -1,10 +1,22 @@
 # api
 
+### 订单状态枚举
+
+``` java
+CREATED = 1;
+
+WAITING_FOR_PAID = 2;
+
+INVALID = 3;
+
+FINISHED = 4;
+```
+
 ### shipping-order/list
 
 描述：分页查询客户查询订单
 
-入参：
+入参：（statue非必填）
 ``` json
 {
 "openid":3,
@@ -15,7 +27,6 @@
 }
 }
 ```
-
 
 出参：
 
@@ -79,7 +90,7 @@
 
 描述：客户提交订单
 
-入参：
+入参：（remark非必填）
 ```json
 {
 "trackingNumber": "TY123456",

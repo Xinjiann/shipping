@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author lixinjian
@@ -68,8 +69,9 @@ public class ShippingOrderController {
         }
 
         QueryWrapper<ShippingOrder> queryWrapper = new QueryWrapper<>();
+
         queryWrapper.eq("openid", queryOrderForPageParam.getOpenid());
-        queryWrapper.eq("status", queryOrderForPageParam.getStatus());
+        Optional.ofNullable(queryOrderForPageParam.getStatus()).map(o->queryWrapper.eq("status", o));
         queryWrapper.eq("deleted", 0);
         Page<ShippingOrder> page = new Page(queryOrderForPageParam.getPageParam().getCurrent(), queryOrderForPageParam.getPageParam().getSize());
         IPage<ShippingOrder> res = shippingOrderService.page(page, queryWrapper);

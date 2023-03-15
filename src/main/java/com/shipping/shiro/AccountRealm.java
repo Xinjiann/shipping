@@ -2,13 +2,12 @@ package com.shipping.shiro;
 
 
 import cn.hutool.core.bean.BeanUtil;
-import com.shipping.entity.User;
-import com.shipping.service.UserService;
+import com.shipping.entity.ShippingUser;
+import com.shipping.service.ShippingUserService;
 import com.shipping.util.JwtUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -24,7 +23,7 @@ public class AccountRealm extends AuthorizingRealm {
   JwtUtils jwtUtils;
 
   @Autowired
-  UserService userService;
+  ShippingUserService shippingUserService;
 
   @Override
   public boolean supports(AuthenticationToken token) {
@@ -43,14 +42,14 @@ public class AccountRealm extends AuthorizingRealm {
 
     String userId = jwtUtils.getClaimByToken((String) jwtToken.getPrincipal()).getSubject();
 
-    User user = userService.getById(Long.valueOf(userId));
+    ShippingUser user = shippingUserService.getById(Long.valueOf(userId));
     if (user == null) {
       throw new UnknownAccountException("账户不存在");
     }
 
-    if (user.getStatus() == -1) {
-      throw new LockedAccountException("账户已被锁定");
-    }
+//    if (user.getStatus() == -1) {
+//      throw new LockedAccountException("账户已被锁定");
+//    }
 
     AccountProfile profile = new AccountProfile();
     BeanUtil.copyProperties(user, profile);

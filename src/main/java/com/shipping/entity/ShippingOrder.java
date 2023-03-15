@@ -11,9 +11,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
  *
  * @author lixinjian
  * @since 2023-03-08

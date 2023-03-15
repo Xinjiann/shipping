@@ -21,7 +21,7 @@ import java.util.List;
 public class FileUpLoadService {
 
   @Autowired
-  UserService userService;
+  ShippingUserService shippingUserService;
 
   // 允许上传的格式
   private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg",
@@ -74,7 +74,7 @@ public class FileUpLoadService {
 
     //改数据库
     String newFileName = filePath.replaceAll("/", "_");
-    userService.updateAvatar(id, newFileName);
+//    shippingUserService.updateAvatar(id, newFileName);
 
     return fileUploadResult;
   }

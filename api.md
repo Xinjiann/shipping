@@ -108,3 +108,30 @@ FINISHED = 4;
 "data": null
 }
 ```
+
+### shipping-usr/login
+
+入参：
+```json
+{
+    "name":"lixin",
+    "phone": "11111111",
+    "jsCode": "abc123456"
+}
+```
+
+出参：
+```json
+
+{
+    "access_token":"douqwdhquobljd",
+    "refresh_token": "qwdbiqdw",
+    "user": {
+      "openId":"dwefiw221",
+      "name": "uwidh",
+      "phone": "1111111",
+      "avatar": "https://hwuehf"
+    }
+}
+
+```

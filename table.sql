@@ -1,48 +1,27 @@
-create table comment
-(
-    id          bigint auto_increment
-        primary key,
-    blog_id     bigint       not null,
-    create_user varchar(20)  not null,
-    user_avatar varchar(300) null,
-    create_time datetime     not null,
-    content     longtext     not null,
-    reply       longtext     null
-);
+-- drop table shipping_user;
+CREATE TABLE `shipping_user` (
+                                 `id` int(10) Auto_Increment NOT NULL COMMENT 'ID',
+                                 `openid` varchar(64) NOT NULL COMMENT 'openid',
+                                 `name` varchar(64) NOT NULL COMMENT '名称',
+                                 `phone` varchar(64) NOT NULL COMMENT '手机号',
+                                 `avatar` varchar(64) NULL COMMENT '头像',
+                                 `create_time` datetime NOT NULL COMMENT '创建时间',
+                                 `delete` int(1) NOT NULL COMMENT '删除标志',
+                                 PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物流用户';
 
-create index comment_blog_id_index
-    on comment (blog_id);
-
-create table m_blog
-(
-    id          bigint auto_increment
-        primary key,
-    user_id     bigint            not null,
-    title       varchar(255)      not null,
-    description varchar(255)      not null,
-    content     longtext          null,
-    created     datetime          not null on update CURRENT_TIMESTAMP,
-    status      tinyint default 1 not null
-);
-
-create index m_blog_id_index
-    on m_blog (id);
-
-create table m_user
-(
-    id         bigint auto_increment
-        primary key,
-    username   varchar(64)          null,
-    avatar     varchar(255)         null,
-    email      varchar(64)          null,
-    password   varchar(64)          null,
-    status     int                  not null,
-    created    datetime             null,
-    last_login datetime             null,
-    is_admin   tinyint(1) default 0 not null
-)
-    charset = utf8;
-
-create index UK_USERNAME
-    on m_user (username);
-
+-- # drop table shipping_order;
+create table shipping_order (
+                                `id` int(10) Auto_Increment NOT NULL COMMENT 'ID',
+                                `remark`          varchar(256)  null comment '描述',
+                                `tracking_number` varchar(64)   not null comment '快递单号',
+                                `address`         varchar(256)  not null comment '地址',
+                                `openid`          varchar(64)   not null comment '创建者',
+                                `create_time`     datetime      null comment '创建时间',
+                                `price`           decimal(9, 2) null comment '金额',
+                                `order_number`    varchar(64)   null comment '国际单号',
+                                `image`           varchar(64)   null comment '图片key',
+                                `status`        int(1)        not null comment '订单状态',
+                                `deleted`         int(1)        not null comment '删除标志',
+                                PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物流订单';

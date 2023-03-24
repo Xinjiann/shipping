@@ -39,7 +39,7 @@ public class ShippingUser implements Serializable {
     /**
      * 名称
      */
-    private String name;
+    private String userName;
 
     /**
      * 手机号
@@ -59,7 +59,7 @@ public class ShippingUser implements Serializable {
     /**
      * 删除标志
      */
-    private Integer delete;
+    private Integer deleted;
 
 
 }

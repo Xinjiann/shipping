@@ -6,6 +6,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.shipping.common.weixin.entity.AccessToken;
 import com.shipping.common.weixin.utils.WeChatUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.weixin4j.WeixinException;
 import org.weixin4j.http.HttpsClient;
 import org.weixin4j.http.Response;
@@ -34,13 +35,17 @@ public abstract class OpenApi {
 
     public static String grantType = "authorization_code";
     /**
-     * 微信公众号appid
+     * 微信appid
      */
-    public static String appId = "";
+    @Value("${wx.appId}")
+    public static String appId = "wxd01d43a7ec84aa47";
+
     /**
-     * 微信公众号密钥
+     * 微信密钥
      */
-    public static String secret = "";
+    @Value("${wx.secret}")
+    public static String secret = "91f43f64f19f476b2301166e5e9ca23e";
+
     /**
      * 微信商户号
      */

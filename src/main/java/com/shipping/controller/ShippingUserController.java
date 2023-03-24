@@ -67,14 +67,15 @@ public class ShippingUserController {
             String openId = jsonObj.get("openid").toString();
             QueryWrapper<ShippingUser> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("openId", openId);
+            queryWrapper.eq("deleted", 0);
             ShippingUser userInfo = shippingUserService.getOne(queryWrapper);
             if (userInfo == null) {
                 user.setOpenid(openId);
-                user.setName(loginParam.getName());
+                user.setUserName(loginParam.getName());
                 user.setPhone(loginParam.getPhone());
                 user.setAvatar(loginParam.getAvatar());
                 user.setCreateTime(new Date());
-                user.setDelete(0);
+                user.setDeleted(0);
                 shippingUserService.save(user);
             }
         } else {
@@ -102,13 +103,13 @@ public class ShippingUserController {
         cal.add(Calendar.DAY_OF_MONTH, +1);
         cal.set(Calendar.HOUR_OF_DAY, 3);
         //拼装accessToken
-        String accessToken = JwtHelper.createJWT(user.getName(), user.getId(),
+        String accessToken = JwtHelper.createJWT(user.getUserName(), user.getId(),
                 audienceProperties.getClientId(), audienceProperties.getName(),
                 cal.getTimeInMillis() - System.currentTimeMillis(), audienceProperties.getBase64Secret());
         //将该用户的access_token储存到redis服务器，保证一段时间内只能有一个有效的access_token
         redisUtils.setToken(user.getId(), accessToken, cal.getTimeInMillis() - System.currentTimeMillis());
         //获取refresh_token，有效期为7天，每次通过refresh_token获取access_token时，会刷新refresh_token的时间
-        String refreshToken = JwtHelper.createRefreshToken(user.getName(), user.getId(), audienceProperties.getClientId(), audienceProperties.getName(), audienceProperties.getBase64Secret());
+        String refreshToken = JwtHelper.createRefreshToken(user.getUserName(), user.getId(), audienceProperties.getClientId(), audienceProperties.getName(), audienceProperties.getBase64Secret());
         redisUtils.setRefreshToken(user.getId(), refreshToken);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("access_token", "bearer" + accessToken);

@@ -2,11 +2,11 @@
 CREATE TABLE `shipping_user` (
                                  `id` int(10) Auto_Increment NOT NULL COMMENT 'ID',
                                  `openid` varchar(64) NOT NULL COMMENT 'openid',
-                                 `name` varchar(64) NOT NULL COMMENT '名称',
+                                 `user_name` varchar(64) NOT NULL COMMENT '名称',
                                  `phone` varchar(64) NOT NULL COMMENT '手机号',
                                  `avatar` varchar(64) NULL COMMENT '头像',
                                  `create_time` datetime NOT NULL COMMENT '创建时间',
-                                 `delete` int(1) NOT NULL COMMENT '删除标志',
+                                 `deleted` int(1) NOT NULL COMMENT '删除标志',
                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物流用户';
 

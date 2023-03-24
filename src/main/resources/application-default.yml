@@ -27,3 +27,7 @@ audience:
   base64Secret: VDk4ZjSiY2Q0TjIxZDM3g9FhZGU0ZTgzQjYyM2I0KjP=
   name: restapiuser
   expiresSecond: 120
+
+wx:
+  appId: wxd01d43a7ec84aa47
+  secret: 91f43f64f19f476b2301166e5e9ca23e

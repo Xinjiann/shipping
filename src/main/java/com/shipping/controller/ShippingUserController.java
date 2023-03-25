@@ -15,7 +15,6 @@ import com.shipping.service.ShippingUserService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authc.Account;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,6 +76,8 @@ public class ShippingUserController {
                 user.setCreateTime(new Date());
                 user.setDeleted(0);
                 shippingUserService.save(user);
+            } else {
+                user = userInfo;
             }
         } else {
             return Result.fail(ResultStatusCode.SYSTEM_ERR.getMsg());
